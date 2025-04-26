@@ -8,36 +8,36 @@ import random
 
 # 问题库
 questions = [
-    "你最难忘的一次约会是什么时候？",
-    "第一次见到对方的感觉是什么？",
-    "你最喜欢对方的哪个特点？",
-    "你们之间有什么特别的小秘密？",
-    "最想和对方一起去哪里旅行？",
-    "第一次牵手的场景还记得吗？",
-    "你们之间最甜蜜的一个瞬间是什么？",
-    "对方做过最让你感动的事是什么？",
-    "你们之间最有趣的一次误会是什么？",
-    "最想对对方说的一句话是什么？",
-    "最欣赏对方的一个优点是什么？",
-    "遇到对方后自己有什么改变？",
-    "你们之间有什么特别的小习惯？",
-    "第一次吵架是因为什么？",
-    "平时吵架后是怎么和好的？",
-    "觉得对方最可爱的瞬间是什么时候？",
-    "如果可以和对方交换一天身份，你会做什么？",
-    "两个人相处时最幸福的时刻是什么？",
-    "你曾经为对方偷偷做过什么？",
-    "你最想和对方一起完成的事情是什么？",
-    "如何描述你们的初次约会？",
-    "你觉得情侣间最重要的是什么？",
-    "什么时候觉得对方特别可靠？",
-    "对方哪个小习惯让你特别喜欢？",
-    "你们第一次一起做饭做的什么？",
-    "最想和对方一起看的电影是？",
-    "你们之间有什么特别的纪念日庆祝方式？",
-    "你给对方取过什么昵称？",
-    "最想一起完成的愿望清单是什么？",
-    "和对方一起最放松的时刻是？"
+    "你最喜欢我身上的哪个部位？",
+    "你和前任分手的真实原因是什么？",
+    "你有没有偷偷删除过我们的聊天记录？",
+    "你最后一次说谎是什么时候？",
+    "最让你感到心动的一次约会是什么时候？",
+    "如果可以改变我的一个习惯，你会选择什么？",
+    "你有没有因为我做过的事情而哭过？",
+    "你觉得我最大的缺点是什么？",
+    "在我不在的时候，你会偷偷做什么？",
+    "你曾经为我放弃过什么？",
+    "你最不愿意让我知道的秘密是什么？",
+    "第一次见我的时候你真实的想法是什么？",
+    "你有没有瞒着我偷偷联系过异性？",
+    "如果让你选择和我的一个朋友约会，你会选谁？",
+    "你有没有觉得我的某个朋友对你有好感？",
+    "你有没有怀疑过我对你不忠？",
+    "你最羡慕我的哪一点？",
+    "我做过最让你感动的一件事是什么？",
+    "和我在一起后你有什么改变？",
+    "你最不满意我们关系中的什么？",
+    "我做过最让你伤心的事情是什么？",
+    "你有没有想过和我分手？",
+    "最近有什么话想对我说但一直没说出口？",
+    "你最害怕我发现你的什么秘密？",
+    "你有没有故意不回我消息？",
+    "和我在一起的哪个瞬间让你最开心？",
+    "你有没有把我们的私密事情告诉过别人？",
+    "你的择偶标准里有哪些是我不符合的？",
+    "你会为了我放弃你的梦想吗？",
+    "如果我们明天就要分手，你最想对我说什么？"
 ]
 
 # 视频参数
@@ -46,17 +46,18 @@ VIDEO_HEIGHT = 1920
 FONT_SIZE = 70
 FONT_COLOR = (255, 255, 255)
 TITLE_FONT_SIZE = 45
-DURATION = 60  # 视频总时长(秒)
+DURATION = 30  # 视频总时长(秒)，压缩至30秒
 FPS = 30
-QUESTION_DURATION = 2  # 每个问题显示帧数
+QUESTION_DURATION = 1  # 每个问题显示帧数，改小以加快切换速度
+COVER_DURATION = 3  # 封面显示时间（秒）
 
 # 渐变背景颜色对 (RGB格式)
 GRADIENT_COLORS = [
-    [(142, 68, 173), (41, 128, 185)],  # 紫色到蓝色
-    [(41, 128, 185), (22, 160, 133)],  # 蓝色到绿色
-    [(243, 156, 18), (211, 84, 0)],    # 黄色到橙色
-    [(231, 76, 60), (192, 57, 43)],    # 亮红到深红
-    [(52, 152, 219), (155, 89, 182)],  # 蓝色到紫色
+    [(246, 209, 220), (188, 140, 191)],  # 淡粉色到淡紫色
+    [(237, 187, 230), (165, 125, 190)],  # 浅粉紫到紫色
+    [(220, 176, 196), (175, 138, 188)],  # 粉灰色到淡紫
+    [(248, 200, 220), (193, 145, 193)],  # 浅粉红到淡紫红
+    [(240, 219, 230), (198, 164, 196)],  # 极淡粉紫到中等淡紫
 ]
 
 def create_gradient_background(width, height, color1, color2):
@@ -65,10 +66,14 @@ def create_gradient_background(width, height, color1, color2):
     draw = ImageDraw.Draw(img)
     
     for y in range(height):
-        # 计算当前位置的颜色
-        r = int(color1[0] + (color2[0] - color1[0]) * y / height)
-        g = int(color1[1] + (color2[1] - color1[1]) * y / height)
-        b = int(color1[2] + (color2[2] - color1[2]) * y / height)
+        # 计算当前位置的颜色 - 使用平滑的过渡
+        progress = y / height
+        # 使用平方函数使过渡更加平滑
+        smooth_progress = progress * progress
+        
+        r = int(color1[0] + (color2[0] - color1[0]) * smooth_progress)
+        g = int(color1[1] + (color2[1] - color1[1]) * smooth_progress)
+        b = int(color1[2] + (color2[2] - color1[2]) * smooth_progress)
         
         # 绘制水平线
         draw.line([(0, y), (width, y)], fill=(r, g, b))
@@ -76,15 +81,16 @@ def create_gradient_background(width, height, color1, color2):
     return img
 
 def add_decorative_elements(img):
-    """添加装饰元素到背景"""
+    """添加装饰元素到背景 - 减少元素数量和模糊效果，避免闪烁"""
     draw = ImageDraw.Draw(img)
     
-    # 添加一些随机圆形装饰
-    for _ in range(20):
-        x = random.randint(0, VIDEO_WIDTH)
-        y = random.randint(0, VIDEO_HEIGHT)
-        size = random.randint(10, 50)
-        opacity = random.randint(30, 100)
+    # 添加一些小星星或装饰点 - 减少数量并固定位置，避免闪烁
+    for i in range(12):
+        # 使用固定的随机种子，确保每帧的装饰元素位置一致
+        x = int(VIDEO_WIDTH * (i * 0.083 + 0.05))
+        y = int(VIDEO_HEIGHT * ((i % 4) * 0.2 + 0.1))
+        size = 15 + (i % 3) * 10  # 10到35之间的大小
+        opacity = 40 + (i % 4) * 10  # 不太透明，避免明显闪烁
         color = (255, 255, 255, opacity)
         
         # 对于PIL的RGBA模式
@@ -94,8 +100,8 @@ def add_decorative_elements(img):
             # 对于RGB模式，忽略透明度
             draw.ellipse((x, y, x+size, y+size), fill=color[:3])
     
-    # 添加模糊效果
-    img = img.filter(ImageFilter.GaussianBlur(radius=1))
+    # 减少模糊效果，使用更小的半径
+    img = img.filter(ImageFilter.GaussianBlur(radius=0.5))
     
     return img
 
@@ -168,49 +174,114 @@ def create_text_frame(text):
     
     return img_array
 
-def create_intro_frame():
-    """创建介绍画面"""
-    # 使用紫色渐变背景
-    img = create_gradient_background(VIDEO_WIDTH, VIDEO_HEIGHT, (142, 68, 173), (41, 128, 185))
-    img = add_decorative_elements(img)
-    
+def create_cover_frame():
+    """创建视频封面，参考提供的图片风格但添加俏皮元素"""
+    # 使用固定的粉色背景色 - 参考图片中的粉色
+    background_color = (226, 187, 196)  # RGB格式的粉色
+    img = Image.new('RGB', (VIDEO_WIDTH, VIDEO_HEIGHT), background_color)
     draw = ImageDraw.Draw(img)
     
     # 加载字体
     try:
-        large_font = ImageFont.truetype("simhei.ttf", 100)
-        medium_font = ImageFont.truetype("simhei.ttf", 60)
+        large_font = ImageFont.truetype("simhei.ttf", 90)
+        medium_font = ImageFont.truetype("simhei.ttf", 80)
+        small_font = ImageFont.truetype("simhei.ttf", 50)
     except:
         large_font = ImageFont.load_default()
         medium_font = ImageFont.load_default()
+        small_font = ImageFont.load_default()
     
-    # 绘制标题
-    title = "情侣真心话"
+    # 绘制主标题 - 使用深红褐色，参考图片中的颜色
+    title_color = (121, 57, 57)  # 深红褐色
+    title = '恋爱"小考卷"'
     title_width = draw.textlength(title, font=large_font)
-    draw.text(((VIDEO_WIDTH - title_width) // 2, VIDEO_HEIGHT//2 - 200), 
-             title, font=large_font, fill=(255, 255, 255))
+    title_y = VIDEO_HEIGHT * 0.4
+    draw.text(((VIDEO_WIDTH - title_width) // 2, title_y), 
+             title, font=large_font, fill=title_color)
     
-    # 绘制说明
-    instructions = [
-        "玩法说明",
-        "1. 随时暂停视频",
-        "2. 停在哪个问题就回答哪个",
-        "3. 双方轮流操作",
-        "4. 真诚回答每个问题"
-    ]
+    # 绘制副标题
+    subtitle = "暂停就要回答"
+    subtitle_width = draw.textlength(subtitle, font=large_font)
+    subtitle_y = title_y + 120
+    draw.text(((VIDEO_WIDTH - subtitle_width) // 2, subtitle_y), 
+             subtitle, font=large_font, fill=title_color)
     
-    y_pos = VIDEO_HEIGHT//2
-    for line in instructions:
-        line_width = draw.textlength(line, font=medium_font)
-        draw.text(((VIDEO_WIDTH - line_width) // 2, y_pos), 
-                 line, font=medium_font, fill=(255, 255, 255))
-        y_pos += 100
+    # 绘制第三行文字
+    third_line = "甜蜜真心话"
+    third_line_width = draw.textlength(third_line, font=large_font)
+    third_line_y = subtitle_y + 120
+    draw.text(((VIDEO_WIDTH - third_line_width) // 2, third_line_y), 
+             third_line, font=large_font, fill=title_color)
+    
+    # 绘制底部小字
+    footer_text = "解锁Ta的小秘密 💕"
+    footer_width = draw.textlength(footer_text, font=small_font)
+    footer_y = VIDEO_HEIGHT - 150
+    draw.text(((VIDEO_WIDTH - footer_width) // 2, footer_y), 
+             footer_text, font=small_font, fill=title_color)
+    
+    # 添加俏皮元素 - 小爱心装饰
+    heart_size = 40
+    for i in range(6):
+        angle = i * 60  # 每60度放置一个爱心，围成一个圆
+        radius = 150  # 爱心围成的圆的半径
+        center_x = VIDEO_WIDTH // 2
+        center_y = (title_y + third_line_y) // 2  # 爱心围绕在标题区域周围
+        
+        # 根据角度计算位置
+        x = center_x + int(radius * np.cos(np.radians(angle)))
+        y = center_y + int(radius * np.sin(np.radians(angle)))
+        
+        # 绘制爱心
+        draw_heart(draw, x, y, heart_size, title_color)
+    
+    # 添加顶部装饰元素 - 小皇冠
+    crown_y = title_y - 130
+    draw_crown(draw, VIDEO_WIDTH // 2, crown_y, 100, title_color)
     
     # 转换为NumPy数组，BGR格式
     img_array = np.array(img)
     img_array = img_array[:, :, ::-1].copy()
     
     return img_array
+
+def draw_heart(draw, x, y, size, color):
+    """绘制一个爱心形状"""
+    # 爱心的上半部分是两个圆
+    circle_radius = size // 3
+    draw.ellipse((x - size//2, y - size//2, x - size//2 + size//1.5, y - size//2 + size//1.5), fill=color)
+    draw.ellipse((x + size//6, y - size//2, x + size//6 + size//1.5, y - size//2 + size//1.5), fill=color)
+    
+    # 爱心的下半部分是一个三角形
+    points = [
+        (x - size//2, y - size//4),
+        (x + size//2, y - size//4),
+        (x, y + size//2)
+    ]
+    draw.polygon(points, fill=color)
+
+def draw_crown(draw, x, y, size, color):
+    """绘制一个简单的皇冠"""
+    # 皇冠的基座
+    base_points = [
+        (x - size//2, y + size//4),
+        (x + size//2, y + size//4),
+        (x + size//2 - size//10, y),
+        (x + size//4, y + size//8),
+        (x, y - size//4),
+        (x - size//4, y + size//8),
+        (x - size//2 + size//10, y)
+    ]
+    draw.polygon(base_points, fill=color)
+    
+    # 皇冠上的小圆点
+    circle_radius = size // 10
+    draw.ellipse((x - size//4 - circle_radius, y - size//3 - circle_radius, 
+                 x - size//4 + circle_radius, y - size//3 + circle_radius), fill=color)
+    draw.ellipse((x - circle_radius, y - size//3 - circle_radius, 
+                 x + circle_radius, y - size//3 + circle_radius), fill=color)
+    draw.ellipse((x + size//4 - circle_radius, y - size//3 - circle_radius, 
+                 x + size//4 + circle_radius, y - size//3 + circle_radius), fill=color)
 
 def create_video():
     print("开始生成视频...")
@@ -219,16 +290,16 @@ def create_video():
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter('couples_truth_questions_enhanced.mp4', fourcc, FPS, (VIDEO_WIDTH, VIDEO_HEIGHT))
     
-    # 添加介绍画面
-    intro_frame = create_intro_frame()
-    intro_duration = 5 * FPS  # 5秒
+    # 添加封面
+    cover_frame = create_cover_frame()
+    cover_duration = COVER_DURATION * FPS  # 3秒
     
-    print("添加介绍画面...")
-    for _ in range(intro_duration):
-        out.write(intro_frame)
+    print("添加视频封面...")
+    for _ in range(cover_duration):
+        out.write(cover_frame)
     
     # 计算一共需要多少帧
-    question_frames = (DURATION - 5) * FPS
+    question_frames = (DURATION - COVER_DURATION) * FPS
     frames_per_question = QUESTION_DURATION
     
     frame_count = 0
@@ -260,7 +331,7 @@ def create_video():
     # 释放VideoWriter
     out.release()
     
-    print(f"视频创建完成: couples_truth_questions_enhanced.mp4，共{intro_duration + frame_count}帧")
+    print(f"视频创建完成: couples_truth_questions_enhanced.mp4，共{cover_duration + frame_count}帧")
 
 if __name__ == "__main__":
     start_time = time.time()
